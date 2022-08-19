@@ -14,6 +14,7 @@ from mysql.connector import connect
 from mysql.connector import Error
 
 from schemas.sessions import Sessions
+from schemas.users import Users
 
 def create_database() -> None:
     """
@@ -49,7 +50,8 @@ def create_tables() -> None:
         logger.debug("Syncing database %s ..." % database['MYSQL_DATABASE'])
 
         db.create_tables([
-            Sessions
+            Sessions,
+            Users
         ])
 
         logger.info("- Successfully Sync database %s" % database['MYSQL_DATABASE'])

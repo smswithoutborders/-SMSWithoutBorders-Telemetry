@@ -9,25 +9,30 @@ api = config["API"]
 from peewee import DatabaseError
 
 from schemas.sessions import Sessions
+from schemas.users import Users
 
 from werkzeug.exceptions import InternalServerError
 
-class Session_Model:
+class Statistics_Model:
     def __init__(self) -> None:
         """
         """
         self.Sessions = Sessions
+        self.Users = Users
 
     def find(self) -> str:
         """
         """
         try:
-            logger.debug("finding session ...")
+            logger.debug("finding statistics ...")
 
             result = []
 
             sessions = (
-                self.Sessions.select()
+                self.Sessions.select(
+                    self.Sessions.createdAt,
+                    self.Sessions.type
+                )
                 .where(
                     ((self.Sessions.status == "verified") & (self.Sessions.type == "signup")) |
                     ((self.Sessions.status == "updated") & (self.Sessions.type == "recovery")) |
@@ -37,18 +42,33 @@ class Session_Model:
             )
 
             for session in sessions:
-                del session["data"]
-                del session["expires"]
-                del session["sid"]
-                del session["user_agent"]
-                del session["unique_identifier"]
-                del session["status"]
-
-                result.append(session)
+                result.append({
+                    "date": session["createdAt"],
+                    "type": session["type"]
+                })
 
             logger.info("- Successfully fetched sessions")
+
+            users = (
+                self.Users.select(
+                    self.Users.current_login
+                )
+                .where(
+                    self.Users.current_login != None
+                )
+                .dicts()
+            )
+
+            for user in users:
+                result.append({
+                    "date": user["current_login"],
+                    "type": "active"
+                })
+
+            logger.info("- Successfully fetched active users")
+
             return result
 
         except DatabaseError as err:
-            logger.error("FAILED FETCH SESSION")
+            logger.error("FAILED FETCH STATISTICS")
             raise InternalServerError(err)

@@ -9,7 +9,7 @@ api = config["API"]
 from flask import Blueprint
 from flask import jsonify
 
-from models.sessions import Session_Model
+from models.statistics import Statistics_Model
 
 Routes = Blueprint("Routes", __name__)
 
@@ -20,7 +20,7 @@ def statistics():
     """
     """
     try:
-        Session = Session_Model()
+        Session = Statistics_Model()
 
         res = Session.find()
 
