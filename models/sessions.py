@@ -37,6 +37,13 @@ class Session_Model:
             )
 
             for session in sessions:
+                del session["data"]
+                del session["expires"]
+                del session["sid"]
+                del session["user_agent"]
+                del session["unique_identifier"]
+                del session["status"]
+
                 result.append(session)
 
             logger.info("- Successfully fetched sessions")
