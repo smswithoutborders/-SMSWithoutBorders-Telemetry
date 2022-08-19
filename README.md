@@ -22,15 +22,15 @@ Move into Virtual Environments workspace
 Install all python packages
 
 ```
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Configurations
 
-Copy `example.configs.ini` to `configs.ini`
+Copy `example.default.ini` to `default.ini`
 
 ```bash
-cp configs/example.configs/ini configs/configs.ini
+cp configs/example.default.ini configs/default.ini
 ```
 
 ## How to use
@@ -41,10 +41,10 @@ cp configs/example.configs/ini configs/configs.ini
 python3 server.py
 ```
 
-set log levels with the `logs` variable. Default = "INFO"
+set log levels with the `--logs` variable. Default = "INFO"
 
 ```bash
-logs=debug python3 server.py
+python3 server.py --logs=debug
 ```
 
 ## API Endpoints
