@@ -35,6 +35,7 @@ rotatory_handler.setFormatter(formatter)
 logger.addHandler(rotatory_handler)
 
 from flask import Flask
+from flask_cors import CORS
 
 from routes.routes import Routes
 
@@ -42,6 +43,7 @@ from controllers.sync_database import create_database
 from controllers.sync_database import create_tables
 
 app = Flask(__name__)
+CORS(app)
 
 create_database()
 create_tables()
