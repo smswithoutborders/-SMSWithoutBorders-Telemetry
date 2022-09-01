@@ -36,7 +36,8 @@ class Statistics_Model:
                 .where(
                     ((self.Sessions.status == "verified") & (self.Sessions.type == "signup")) |
                     ((self.Sessions.status == "updated") & (self.Sessions.type == "recovery")) |
-                    ((self.Sessions.status == None) & (self.Sessions.type == "publisher"))
+                    ((self.Sessions.status == None) & (self.Sessions.type == "publisher")) |
+                    ((self.Sessions.status == None) & (self.Sessions.type == "active"))
                 )
                 .dicts()
             )
@@ -70,5 +71,5 @@ class Statistics_Model:
             return result
 
         except DatabaseError as err:
-            logger.error("FAILED FETCH STATISTICS")
+            logger.error("FAILED TO FETCH STATISTICS. See logs below")
             raise InternalServerError(err)
