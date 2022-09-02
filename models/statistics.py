@@ -37,7 +37,8 @@ class Statistics_Model:
                     ((self.Sessions.status == "verified") & (self.Sessions.type == "signup")) |
                     ((self.Sessions.status == "updated") & (self.Sessions.type == "recovery")) |
                     ((self.Sessions.status == None) & (self.Sessions.type == "publisher")) |
-                    ((self.Sessions.status == None) & (self.Sessions.type == "active"))
+                    ((self.Sessions.status == None) & (self.Sessions.type == "active")) |
+                    ((self.Sessions.status == None) & (self.Sessions.type == "deleted"))
                 )
                 .dicts()
             )
