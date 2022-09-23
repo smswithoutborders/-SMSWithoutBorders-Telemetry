@@ -5,9 +5,6 @@ from Configs import baseConfig
 config = baseConfig()
 database = config["DATABASE"]
 
-import os
-import json
-
 from schemas.baseModel import db
 from contextlib import closing
 from mysql.connector import connect
@@ -15,6 +12,7 @@ from mysql.connector import Error
 
 from schemas.sessions import Sessions
 from schemas.users import Users
+from schemas.usersinfo import UsersInfos
 
 def create_database() -> None:
     """
@@ -51,7 +49,8 @@ def create_tables() -> None:
 
         db.create_tables([
             Sessions,
-            Users
+            Users,
+            UsersInfos
         ])
 
         logger.info("- Successfully Sync database %s" % database['MYSQL_DATABASE'])
