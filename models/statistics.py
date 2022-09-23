@@ -8,7 +8,6 @@ api = config["API"]
 from peewee import DatabaseError
 
 from schemas.sessions import Sessions
-from schemas.users import Users
 from schemas.usersinfo import UsersInfos
 
 from werkzeug.exceptions import InternalServerError
@@ -18,7 +17,6 @@ class Statistics_Model:
         """
         """
         self.Sessions = Sessions
-        self.Users = Users
         self.UsersInfos = UsersInfos
 
     def find(self) -> str:
@@ -37,8 +35,7 @@ class Statistics_Model:
                 .where(
                     ((self.Sessions.status == "verified") & (self.Sessions.type == "signup")) |
                     ((self.Sessions.status == "updated") & (self.Sessions.type == "recovery")) |
-                    ((self.Sessions.status == None) & (self.Sessions.type == "publisher")) |
-                    ((self.Sessions.status == None) & (self.Sessions.type == "active"))
+                    ((self.Sessions.status == None) & (self.Sessions.type == "publisher"))
                 )
                 .dicts()
             )
@@ -50,24 +47,6 @@ class Statistics_Model:
                 })
 
             logger.info("- Successfully fetched sessions")
-
-            users = (
-                self.Users.select(
-                    self.Users.current_login
-                )
-                .where(
-                    self.Users.current_login != None
-                )
-                .dicts()
-            )
-
-            for user in users:
-                result.append({
-                    "date": user["current_login"],
-                    "type": "active"
-                })
-
-            logger.info("- Successfully fetched active users")
 
             usersinfos = (
                 self.UsersInfos.select(
