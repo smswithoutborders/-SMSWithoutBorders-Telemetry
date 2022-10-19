@@ -10,6 +10,8 @@ from peewee import DatabaseError
 from schemas.sessions import Sessions
 from schemas.usersinfo import UsersInfos
 
+from security.data import Data
+
 from werkzeug.exceptions import InternalServerError
 
 class Statistics_Model:
@@ -18,11 +20,14 @@ class Statistics_Model:
         """
         self.Sessions = Sessions
         self.UsersInfos = UsersInfos
+        self.Data = Data
 
     def find(self) -> str:
         """
         """
         try:
+            data = self.Data()
+
             logger.debug("finding statistics ...")
 
             result = []
@@ -51,6 +56,8 @@ class Statistics_Model:
             usersinfos = (
                 self.UsersInfos.select(
                     self.UsersInfos.createdAt,
+                    self.UsersInfos.country_code,
+                    self.UsersInfos.iv
                 )
                 .where(
                     self.UsersInfos.status == "verified"
@@ -61,7 +68,11 @@ class Statistics_Model:
             for usersinfo in usersinfos.iterator():
                 result.append({
                     "date": usersinfo["createdAt"],
-                    "type": "available"
+                    "type": "available",
+                    "country_code": data.decrypt(
+                        data = usersinfo["country_code"],
+                        iv = usersinfo["iv"]
+                    )
                 })
 
             logger.info("- Successfully fetched available users")
