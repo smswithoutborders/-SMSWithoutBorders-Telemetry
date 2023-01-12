@@ -1,17 +1,13 @@
 import logging
-logger = logging.getLogger(__name__)
-
-# configurations
-from Configs import baseConfig
-config = baseConfig()
-api = config["API"]
 
 from flask import Blueprint
 from flask import jsonify
 
-from models.statistics import Statistics_Model
+from src.models.statistics import Statistics_Model
 
 Routes = Blueprint("Routes", __name__)
+
+logger = logging.getLogger(__name__)
 
 from werkzeug.exceptions import InternalServerError
 

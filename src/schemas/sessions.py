@@ -1,14 +1,11 @@
-from peewee import CharField
-from peewee import DateTimeField
-from peewee import TextField
+from peewee import Model, CharField, DateTimeField, TextField
 
-from schemas.baseModel import BaseModel
+from src.schemas.db_connector import db
 
 from uuid import uuid4
-
 from datetime import datetime
 
-class Sessions(BaseModel):
+class Sessions(Model):
     sid = CharField(primary_key=True, default=uuid4)
     unique_identifier = CharField(null=True)
     user_agent = CharField(null=True)
@@ -17,3 +14,6 @@ class Sessions(BaseModel):
     status = CharField(null=True)
     type = CharField(null=True)
     createdAt = DateTimeField(null=True, default=datetime.now)
+
+    class Meta:
+        database = db

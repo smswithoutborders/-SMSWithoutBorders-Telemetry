@@ -1,15 +1,20 @@
 import logging
-logger = logging.getLogger(__name__)
-
-from Configs import baseConfig
-config = baseConfig()
-api = config["API"]
-e_key = api["KEY"]
-
 import string
+
+from settings import Configurations
+
+if Configurations.SHARED_KEY:
+    e_key = open(Configurations.SHARED_KEY, "r").readline().strip()
+else:
+    from src.schemas.credentials import Credentials
+    creds = Credentials.get(Credentials.id == 1)
+    e_key = creds.shared_key
+
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from Crypto import Random
+
+logger = logging.getLogger(__name__)
 
 from werkzeug.exceptions import InternalServerError
 from werkzeug.exceptions import Unauthorized

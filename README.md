@@ -2,49 +2,95 @@
 
 ## Requirements
 
+- [MySQL](https://www.mysql.com/) (version >= 8.0.28) ([MariaDB](https://mariadb.org/))
 - [Python](https://www.python.org/) (version >= [3.8.10](https://www.python.org/downloads/release/python-3810/))
 - [Python Virtual Environments](https://docs.python.org/3/tutorial/venv.html)
 
+## Dependencies
+
+On Ubuntu
+
+```bash
+$ sudo apt install python3-dev libmysqlclient-dev apache2 apache2-dev make libapache2-mod-wsgi-py3
+```
+
+## Linux Environment Variables
+
+Variables used for the Project:
+
+- MYSQL_HOST=STRING
+- MYSQL_USER=STRING
+- MYSQL_PASSWORD=STRING
+- MYSQL_DATABASE=STRING
+- SHARED_KEY=PATH
+- HOST=STRING
+- PORT=STRING
+- SSL_SERVER_NAME=STRING
+- SSL_PORT=STRING
+- SSL_CERTIFICATE=PATH
+- SSL_KEY=PATH
+- SSL_PEM=PATH
+- MODE=STRING
+
 ## Installation
-
-Create a Virtual Environments **(venv)**
-
-```
-python3 -m venv venv
-```
-
-Move into Virtual Environments workspace
-
-```
-. venv/bin/activate
-```
 
 Install all python packages
 
-```
-pip install -r requirements.txt
-```
-
-## Configurations
-
-Copy `example.default.ini` to `default.ini`
+### Pip
 
 ```bash
-cp configs/example.default.ini configs/default.ini
+$ python3 -m venv venv
+$ . venv/bin/activate
+$ pip install -r requirements.txt
 ```
 
 ## How to use
 
-### Start api
+### Start API
+
+**Python**
 
 ```bash
-python3 server.py
+$ MYSQL_HOST= \
+  MYSQL_USER= \
+  MYSQL_PASSWORD= \
+  MYSQL_DATABASE= \
+  HOST= \
+  PORT= \
+  SSL_SERVER_NAME= \
+  SSL_PORT= \
+  SSL_CERTIFICATE= \
+  SSL_KEY= \
+  SSL_PEM= \
+  MODE=production \
+  python3 server.py
 ```
 
-set log levels with the `--logs` variable. Default = "INFO"
+**MOD_WSGI**
 
 ```bash
-python3 server.py --logs=debug
+$ MYSQL_HOST= \
+  MYSQL_USER= \
+  MYSQL_PASSWORD= \
+  MYSQL_DATABASE= \
+  HOST= \
+  PORT= \
+  SSL_SERVER_NAME= \
+  SSL_PORT= \
+  SSL_CERTIFICATE= \
+  SSL_KEY= \
+  SSL_PEM= \
+  MODE=production \
+  mod_wsgi-express start-server wsgi_script.py \
+  --user www-data \
+  --group www-data \
+  --port '${PORT}' \
+  --ssl-certificate-file '${SSL_CERTIFICATE}' \
+  --ssl-certificate-key-file '${SSL_KEY}' \
+  --ssl-certificate-chain-file '${SSL_PEM}' \
+  --https-only \
+  --server-name '${SSL_SERVER_NAME}' \
+  --https-port '${SSL_PORT}'
 ```
 
 ## API Endpoints

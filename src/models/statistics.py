@@ -1,16 +1,13 @@
 import logging
-logger = logging.getLogger(__name__)
-
-from Configs import baseConfig
-config = baseConfig()
-api = config["API"]
 
 from peewee import DatabaseError
 
-from schemas.sessions import Sessions
-from schemas.usersinfo import UsersInfos
+from src.schemas.sessions import Sessions
+from src.schemas.usersinfo import UsersInfos
 
-from security.data import Data
+from src.security.data import Data
+
+logger = logging.getLogger(__name__)
 
 from werkzeug.exceptions import InternalServerError
 
