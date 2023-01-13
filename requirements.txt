@@ -9,7 +9,7 @@ mod_wsgi==4.9.4
 mysql-connector-python==8.0.30
 mysqlclient==2.1.1
 peewee==3.15.1
-protobuf==3.20.1
+protobuf==3.20.2
 pycryptodome==3.15.0
 six==1.16.0
 Werkzeug==2.2.2
