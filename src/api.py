@@ -1,15 +1,17 @@
 import logging
 
-from flask import Blueprint
-from flask import jsonify
+from flask import Blueprint, jsonify, request
 
 from src.models.statistics import Statistics_Model
+from src.models.users import Users_Model
+
 from src.schemas.db_connector import db
 
 Routes = Blueprint("Routes", __name__)
 
 logger = logging.getLogger(__name__)
 
+from werkzeug.exceptions import BadRequest
 from werkzeug.exceptions import InternalServerError
 
 @Routes.before_request
@@ -21,17 +23,30 @@ def after_request(response):
     db.close()
     return response
 
-@Routes.route("/statistics", methods=["GET"])
-def statistics():
+@Routes.route("/users", methods=["GET"])
+def users():
     """
     """
     try:
-        Session = Statistics_Model()
+        start = request.args.get("start")
+        end = request.args.get("end")
+        type = request.args.get("type")
+        format = request.args.get("format")
 
-        res = Session.find()
+        Users = Users_Model()
 
-        return jsonify(res), 200
+        data = Users.find(
+            start=start,
+            end=end,
+            type=type,
+            format=format
+        )
+
+        return jsonify(data), 200
                 
+    except BadRequest as err:
+        return str(err), 400
+    
     except InternalServerError as err:
         logger.exception(err)
         return "internal server error", 500
