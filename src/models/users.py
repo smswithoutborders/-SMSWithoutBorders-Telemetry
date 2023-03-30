@@ -151,7 +151,7 @@ class Users_Model:
                         else:
                             result[str(usersinfo_date.year)].append([month_name, 1])
                             
-                        country_prefix = int(data.decrypt(data = usersinfo.country_code, iv = usersinfo.iv))
+                        country_prefix = int(data.decrypt(data = usersinfo.country_code))
                         region_code = region_code_for_country_code(country_prefix)
                         country_name = geocoder._region_display_name(region_code, "en")
 
@@ -201,7 +201,7 @@ class Users_Model:
                         else:
                             result[str(usersinfo_date.year)].append([day_name, 1])
                             
-                        country_prefix = int(data.decrypt(data = usersinfo.country_code, iv = usersinfo.iv))
+                        country_prefix = int(data.decrypt(data = usersinfo.country_code))
                         region_code = region_code_for_country_code(country_prefix)
                         country_name = geocoder._region_display_name(region_code, "en")
 
