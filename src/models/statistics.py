@@ -67,8 +67,7 @@ class Statistics_Model:
                     "date": usersinfo["createdAt"],
                     "type": "available",
                     "country_code": data.decrypt(
-                        data = usersinfo["country_code"],
-                        iv = usersinfo["iv"]
+                        data = usersinfo["country_code"]
                     )
                 })
 
@@ -79,3 +78,4 @@ class Statistics_Model:
         except DatabaseError as err:
             logger.error("FAILED TO FETCH STATISTICS. See logs below")
             raise InternalServerError(err)
+        
