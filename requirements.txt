@@ -11,7 +11,7 @@ mysqlclient==2.1.1
 peewee==3.15.1
 phonenumbers==8.13.4
 protobuf==4.21.6
-pycryptodome==3.14.1
+pycryptodome==3.19.1
 six==1.16.0
 Werkzeug==3.0.3
 zipp==3.8.1
